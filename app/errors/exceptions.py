@@ -1,0 +1,2 @@
+class LoadsTokenException(Exception):
+    pass

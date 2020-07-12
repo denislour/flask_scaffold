@@ -1,7 +1,8 @@
 from flask import Blueprint, request, render_template, \
     flash, redirect, url_for
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 from app import db
+from app.core.email import send_email
 from .forms import LoginForm, RegistrationForm
 from .models import User
 
@@ -47,6 +48,53 @@ def register():
         )
         db.session.add(user)
         db.session.commit()
+        token = user.generate_confirmation_token()
+        send_email(
+            current_user.email, 'Confirm your account',
+            'emails/confirm.jinja2', user=current_user, token=token,
+        )
         flash("You can login now.")
         return redirect(url_for('auth.login'))
     return render_template('register.jinja2', form=form)
+
+
+@auth.route('/confirm/<token>')
+@login_required
+def confirm(token):
+    if current_user.confirm:
+        return redirect(url_for('core.index'))
+    if current_user.confirm(token):
+        db.session.commit()
+        flash('You have confirmed your account. Thanks!')
+    else:
+        flash('Confirm link is invalid or expired')
+    return redirect(url_for('core.index'))
+
+
+@auth.before_request
+def before_request():
+    if current_user.is_authenticated \
+            and not current_user.confirmed \
+            and request.blueprint != 'auth' \
+            and request.endpoint != 'static':
+        return redirect(url_for('auth.unconfirmed'))
+
+
+@auth.route('/unconfirmed')
+def unconfirmed():
+    if current_user.is_anonymous or current_user.confirmed:
+        return redirect(url_for('core.index'))
+    return render_template('unconfirmed.jinja2')
+
+
+@auth.route('/confirm')
+@login_required
+def resend_confirmation():
+    token = current_user.generate_confirmation_token()
+    print(current_user.email)
+    send_email(
+        current_user.email, 'Confirm your account', 'emails/confirm.jinja2',
+        user=current_user, token=token,
+    )
+    flash('A new confirmation email has been sent to you by email.')
+    return redirect(url_for('core.index'))
