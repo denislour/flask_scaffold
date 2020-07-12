@@ -25,7 +25,7 @@ The project structure prototype in below:
 │   │   ├── forms.py
 │   │   ├── models.py
 │   │   ├── templates
-│   │   │   └── module_1.j2
+│   │   │   └── module_1.jinja2
 │   │   └── views.py
 │   ├── module_2
 │   │   ├── __init__.py
@@ -33,10 +33,10 @@ The project structure prototype in below:
 │   │   ├── forms.py
 │   │   ├── models.py
 │   │   ├── templates
-│   │   │   └── module_2.j2
+│   │   │   └── module_2.jinja2
 │   │   └── views.py
 │   └── templates
-│       └── base.j2
+│       └── base.jinja2
 ├── config.py
 ├── manage.py
 ├── pyproject.toml
@@ -55,23 +55,23 @@ The project structure prototype in below:
 │   │   ├── __init__.py
 │   │   ├── models.py
 │   │   ├── templates
-│   │   │   └── auth.j2
+│   │   │   └── auth.jinja2
 │   │   └── views.py
 │   ├── core
 │   │   ├── form.py
 │   │   ├── __init__.py
 │   │   ├── templates
-│   │   │   └── index.j2
+│   │   │   └── index.jinja2
 │   │   └── views.py
 │   ├── errors
 │   │   ├── handlers.py
 │   │   ├── __init__.py
 │   │   └── templates
-│   │       ├── 404.j2
-│   │       └── 500.j2
+│   │       ├── 404.jinja2
+│   │       └── 500.jinja2
 │   ├── __init__.py
 │   └── templates
-│       └── base.j2
+│       └── base.jinja2
 ├── config.py
 ├── manage.py
 ├── pyproject.toml

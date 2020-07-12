@@ -22,4 +22,4 @@ def login():
             return redirect(url_for('auth.home'))
         flash('Wrong email or password', 'error-message')
 
-    return render_template("auth.j2", form=form)
+    return render_template("auth.jinja2", form=form)
