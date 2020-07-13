@@ -123,3 +123,8 @@ The list command below:
 
 - Migrate database:
     > python manage.py migrate
+
+# Todo
+- Rebuild docker
+- Swich SQL to GQL
+- Add poetry to docker
