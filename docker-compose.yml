@@ -8,3 +8,18 @@ services:
     restart: always
     volumes:
       - ./app:/home/craft/app
+    links:
+    - 'db:db'
+
+  db:
+    image: neo4j:latest
+    env_file:
+      - '.env'
+    ports:
+      - '7474:7474'
+      - '7687:7687'
+    volumes:
+      - 'db:/data'
+
+volumes:
+  db:
